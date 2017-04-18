@@ -1,0 +1,17 @@
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\LengthConverter.LengthConverter.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\LengthConverter.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\LengthConverter.csprojResolveAssemblyReference.cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\FindNthDigitForPI.FindNthDigitForPI.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\obj\Debug\LengthConverter.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\LengthConverter\LengthConverter\bin\Debug\TemperatureConverter.pdb

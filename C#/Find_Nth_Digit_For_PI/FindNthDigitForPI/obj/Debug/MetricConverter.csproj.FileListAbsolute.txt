@@ -1,0 +1,9 @@
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\MetricConverter.csprojResolveAssemblyReference.cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\MetricConverter.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\LengthConverter.LengthConverter.resources

@@ -1,0 +1,17 @@
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\LengthConverter.LengthConverter.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\LengthConverter.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\MetricConverter\MetricConverter\obj\Debug\TemperatureConverter.pdb
+E:\GitHub\C#\Length_Converter\LengthConverter\bin\Debug\TemperatureConverter.exe.config
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\TemperatureConverter.exe
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\TemperatureConverter.pdb
+E:\GitHub\C#\Length_Converter\LengthConverter\bin\Debug\TemperatureConverter.exe
+E:\GitHub\C#\Length_Converter\LengthConverter\bin\Debug\TemperatureConverter.pdb
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\LengthConverter.csprojResolveAssemblyReference.cache
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\LengthConverter.LengthConverter.resources
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\TemperatureConverter.Properties.Resources.resources
+E:\GitHub\C#\Length_Converter\LengthConverter\obj\Debug\LengthConverter.csproj.GenerateResource.Cache

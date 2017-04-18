@@ -1,0 +1,17 @@
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\obj\Debug\FactorialCalculator.FactorialCalculator.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\obj\Debug\FactorialCalculator.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FindNthDigitForPI\FindNthDigitForPI\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\FactorialCalculator.csprojResolveAssemblyReference.cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\FactorialCalculator.FactorialCalculator.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\FactorialCalculator\FactorialCalculator\obj\Debug\FactorialCalculator.csproj.GenerateResource.Cache

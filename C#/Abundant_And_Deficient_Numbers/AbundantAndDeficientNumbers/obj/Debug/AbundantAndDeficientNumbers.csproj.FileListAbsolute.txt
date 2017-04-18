@@ -1,0 +1,21 @@
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\AbundantAndDeficientNumbers.csprojResolveAssemblyReference.cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\AbundantAndDeficientNumbers.AbundantAndDeficientNumbers.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\AbundantAndDeficientNumbers.csproj.GenerateResource.Cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AtbashCipher\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\bin\Debug\TemperatureConverter.exe.config
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\bin\Debug\TemperatureConverter.exe
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\bin\Debug\TemperatureConverter.pdb
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\AbundantAndDeficientNumbers.csprojResolveAssemblyReference.cache
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\AbundantAndDeficientNumbers.AbundantAndDeficientNumbers.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\TemperatureConverter.Properties.Resources.resources
+C:\Users\Erik\Documents\Visual Studio 2015\Projects\AtbashCipher\AbundantAndDeficientNumbers\obj\Debug\AbundantAndDeficientNumbers.csproj.GenerateResource.Cache
+E:\GitHub\C#\Abundant_And_Deficient_Numbers\AbundantAndDeficientNumbers\bin\Debug\TemperatureConverter.exe.config
+E:\GitHub\C#\Abundant_And_Deficient_Numbers\AbundantAndDeficientNumbers\obj\Debug\TemperatureConverter.exe
+E:\GitHub\C#\Abundant_And_Deficient_Numbers\AbundantAndDeficientNumbers\obj\Debug\TemperatureConverter.pdb
