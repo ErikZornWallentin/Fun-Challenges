@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Connect Four Game</title>
+    <style>
+        .container {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 68px;
+            height: 50px;
+            font-size: 20px;
+            color: black;
+			background-color: orange;
+			border-top-left-radius: 30px 30px;
+			border-bottom-right-radius: 30px 30px;
+			border-bottom-left-radius: 30px 30px;
+			border-top-right-radius: 30px 30px;	
+        }
+		
+		.button:hover {
+			background-color: #79d279;
+		}
+		
+		.buttonOne {
+            width: 100%;
+            height: 90px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+		.changeColor {
+			color: red;
+		}
+		
+		.inputBox {
+            width: 40px;
+            height: 20px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* CODE SECTION */
+    /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED BELOW HERE */
+	
+		/* Place some variables here! Example code for assignment --> var playerTurn = "One"; */
+		var gameWon = false;
+        var playerOneSymbol; 
+		var playerTwoSymbol;
+		var playerTurn;
+		
+		/* Example use of code to set text, this function is only used when game is refreshed!
+		   Make use of some of the lines in this function to help with completion of assignment in future steps!
+		   This code is a good example of how to show / get the text at the bottom of the game */
+		function init (){
+			document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+			document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			document.getElementById('playerTurn').innerHTML = playerTurn;
+			document.getElementById('playerWon').innerHTML = "";
+		}
+		
+		/* To be completed by you */
+		function checkBelow(){
+		
+		}
+		
+		/* To be completed by you */
+		function placeDisc(){
+
+		}
+		
+		/* To be completed by you */
+		function checkRowOrColumn(min, max, rowOrColumnOrDiagonal){
+			/* Do not do anymore logic checks as we found the winning pieces */
+			if (gameWon != true){
+				var number = 0;
+				
+				/* Check how we should loop through the slots of the board 
+				/* Very important to determine which logic to be used 'row', 'column', 'diagonalOne', 'diagonalTwo' --> would cover all possibilities of logic checks */
+				if (rowOrColumnOrDiagonal == 'row'){
+					number = 1;
+				}
+				
+				/* Loop through the board to see which discs are displayed, make use of the number value to determine how to do the logic check */
+				for (i = min; i <= max; i = i + number) {
+					
+				}
+				
+				/* Show if someone won! It would count 4 discs for a player, and if someone got 4 it should show the winning player */
+				
+			}
+		}
+		
+		/* To be completed by you */
+		function checkBoard(){
+			/* You should call the function checkRowOrColumn 25 times here for all the possibilities to win the game */
+			/* Example code for assignment to call checkRowOrColumn for 1 of the 8 times --> checkRowOrColumn(1,7,'row'); */
+			/* checkRowOrColumn(min, max ,rowOrColumnOrDiagonal);
+			/* checkRowOrColumn(1,7,'row');  ---> 1 represents the minimum board slot the function would start at, 7 represents the last board slot to check, 'row' represents the type of logic used
+			/* This example would follow the logic for solving the top row of the Tic-tac-toe board! Make sure to follow same method for other 8 possibilities */
+			
+			/* Check All Rows Here*/
+			
+			/* Check All Columns Here*/
+			
+			/* Check All for diagonals that go left to right (top to bottom) Here*/
+			
+			/* Check All for diagonals that go right to left (top to bottom) Here*/
+			
+			/* Reset Game if  board is full Here*/
+
+		}
+		
+		
+		
+		
+        /* To be completed by you */
+        function resetGame () {
+			/* Put the game back to reset state */
+
+        }
+        
+
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<!-- Show the name of the game in font! -->
+			<font size="7" face="verdana" color="black"><b>Connect Four</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				
+				<tr>
+					<!-- This is the top 7 slots of the Connect Four board -->
+					<td><input id="1" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="2" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="3" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="4" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="5" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="6" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="7" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+
+				</tr>
+				<tr>
+					<td><input id="8" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="9" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="10" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="11" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="12" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="13" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="14" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+					
+				</tr>
+				<tr>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>	
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+				</tr>
+				<tr>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>	
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+				</tr>
+				<tr>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>	
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+				</tr>
+				<tr>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>	
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+					<td><input id="" class="button" type="button" value="" onclick="placeDisc()"/></td>
+				</tr>
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<font size="6" face="verdana" color="black"><b>Player's Turn:  </font>
+			<font size="5" face="verdana" color="red">Player <span id="playerTurn"></span></font><br>
+			<br>
+			<font size="5" face="verdana" color="black"><b>Player One Symbol: <span class ="changeColor" id="playerOneSymbolSpan"></span> </b></font>
+			<br>
+			<font size="5" face="verdana" color="black"><b>Player Two Symbol: <span class ="changeColor" id="playerTwoSymbolSpan"></span> </b></font>
+			<br>
+			<td><input id="reset" class="buttonSetup" type="button" value="Reset" onclick="resetGame()"/></td>
+			<br>
+			<font size="5" face="verdana" color="red"><b><span id="playerWon"></span> </b></font><br>
+		</center>
+	</body>
+</html>

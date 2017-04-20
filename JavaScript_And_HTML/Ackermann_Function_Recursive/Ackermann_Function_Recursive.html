@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ackermann Function</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white;
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 50px;
+            font-size: 30px;
+            color: #222;
+        }
+		
+		.buttonSetup {
+            width: 70px;
+            height: 100px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+    
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Feb. 18 / 2016
+		
+		This program was created for fun during my reading week break in University during 3rd year.
+		
+		This is Ackermann Function, if you don't know what that is see link:
+		https://en.wikipedia.org/wiki/Ackermann_function
+		
+		
+		It starts off by waiting for user input in M or N text boxes.
+		Once you give a numerical value, and press the calculate button it will calculate the result for you.
+		If you use low values from 0-3 in M and N it will calculate it almost instantly.
+		If the values are above that you may be waiting for minutes or longer!
+		
+		If you use values above 4, 4 it may even crash and never work in JavaScript. 
+		This is intended as JavaScript is not a very good language to calculate Ackermann Function in!
+		
+		Example use 1:
+
+			M: 1
+			N: 1
+			Result: 3
+
+		Example use 2:
+			
+			M: 2
+			N: 2
+			Result: 7
+			
+		Example use 3:
+			M: 4
+			N: 4
+			Result: After 30min of waiting I gave up...it was unable to do this calculating in a timely fashion
+		
+	*/
+		
+		var playerInfo = "Smaller M and N values are quick to calculate! Higher values take a long time...";
+		var m = 0;
+		var n = 0;
+		var result = 0;
+		var isCalculating = false;
+		
+		/*-------
+		Purpose: On launch of the program this function is called, sets up all variables
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function init (){
+			document.getElementById('playerInfo').innerHTML = playerInfo;
+			m = 0;
+			n = 0;
+			document.getElementById("calculate").disabled = false;
+		}
+		
+
+		/*-------
+		Purpose: Ackermann Function using recursion, uses m and n integer values as input
+		Parameters: m and n (integers from user)
+		Return: result ( the result after calculating ackermann function recursively )
+		-------*/
+		function ackermannFunc(m, n){
+			if (m == 0){
+				return n + 1;
+			}else if (n == 0){
+				return ackermannFunc(m - 1, 1);
+			}else {
+				return ackermannFunc(m - 1, ackermannFunc(m, n - 1));
+			}
+		}
+		
+		/*-------
+		Purpose: Checks if Ackermann Function is already calculating to determine what to do next, and also handles the timer calculations
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function calculate(){
+			if (isCalculating == false){
+				isCalculating = true;
+				
+				document.getElementById('time').innerHTML = "";
+				document.getElementById('result').innerHTML = "";
+				
+				/* Start timer */
+				var t0 = performance.now();
+				
+				document.getElementById('playerInfo').innerHTML = "Calculating... May take a very very long time to finish if you have high values";
+				document.getElementById("calculate").disabled = true;
+				
+				var tempM = document.getElementById("m").value;
+				var tempN = document.getElementById("n").value;
+				m = parseInt(tempM);
+				n = parseInt(tempN);
+			
+				/* Recursively do Ackermann Function */
+				result = ackermannFunc(m, n);
+				document.getElementById('result').innerHTML = result;
+				
+				document.getElementById("calculate").disabled = false;
+				document.getElementById('playerInfo').innerHTML = "Done!";
+				isCalculating = false;
+				
+				/* Stop timer */
+				var t1 = performance.now();
+				var timeTaken = t1 - t0;
+				document.getElementById('time').innerHTML = timeTaken;
+			}
+		}
+		
+
+        /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED ABOVE HERE */
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="7" face="verdana" color="black"><b>Ackermann Function</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<tr>
+					<center>
+					<br>
+					<br>
+					M: <input type="text" id="m" name="m" value = "0"><br>
+					<br>
+					N: <input type="text" id="n" name="n" value = "0"><br>
+					<br>
+					<br>
+					<font size="3" face="verdana" color="black"><b>Result: </b> <span id="result"></span> </font>
+					<br>
+					<font size="3" face="verdana" color="black"><b>Time: </b> <span id="time"></span> </font> 
+					</center>
+					<br>
+					<td><input id="calculate" class="button" type="button" value="Calculate" onclick="calculate()"/></td>	
+				</tr>
+
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<font size="5" face="verdana" color="red"><span id="playerInfo"></span></font><br>
+			<br>
+		</center>
+	</body>
+</html>

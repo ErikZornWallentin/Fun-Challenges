@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Abundant and Deficient Numbers</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 40px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+	.buttonSetup {
+            width: 100px;
+            height: 30px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Mar. 14 / 2016
+		
+		This program was created to polish and improve my JavaScript programming skills.
+		
+		This is script is on Abundant and Deficient Number, if you don't know what that is, see below link:
+		http://www.positiveintegers.org/IntegerTables/1-100
+		
+		Example use's:
+		Consider the number 21. Its divisors are 1, 3, 7 and 21, and their sum is 32. 
+		Because 32 is less than 2 x 21, the number 21 is deficient. 
+		Its deficiency is 2 x 21 - 32 = 10.
+		
+		The integer 12 is the first abundant number. Its divisors are 1, 2, 3, 4, 6, and 12, and their sum is 28. 
+		Because 28 is greater than 2 x 12, the number 12 is abundant. 
+		It's abundant by is 28 - 24 = 4.
+		
+		The program will determine if the given number is abundant, deficient or neither.
+		The program also has error checking and will only accept numbers between 1-1000.
+		Any other input that is not a number between 1-1000 will throw and error.
+		
+		It starts off by waiting for user input. 
+		In both textbox's on the screen you input a number and hit "Calculate" button to determine what the number is.
+		You can reset the converter at any time to get back to the original state that the program started in.
+		
+	*/
+	
+	/*-------
+		Purpose: On launch of the script this function is called, calls the reset function to reset everything
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+	}
+		
+    /*-------
+		Purpose: Resets the program to the original state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+    function reset () {
+
+		document.getElementById('showResult').innerHTML = "";	
+		document.getElementById('1').value = "21";
+    }
+
+	/*-------
+		Purpose: Extends JavaScript eval function to my needs where it will put the result into the display
+		Parameters: value ( number to be evaluated by the JavaScript eval function)
+		Return: NONE
+	-------*/
+	function evaluate(value){
+		var result = 0;
+		result = eval(value);
+		document.getElementById('1').value = result;
+
+	}
+
+	/*-------
+		Purpose: Mods the given number "x" and if the remainder is 0 it will append it to the total sum
+		Parameters: x (number to be checked against )
+		Return: sum (returns the sum of the divided numbers that have no remainder)
+	-------*/
+	function divisors(x){
+		var sum = 0;
+
+		for (var i = 1; i <= x; i++){
+			if (x % i == 0){
+				/* If you can divide the number into the given number, mod will spit out 0 */
+				/* We only care about numbers that can divide into the given number */
+				/* Any numbers that give remainders we ignore */
+
+				//alert("ADDING: " + i);
+				sum += i;
+			}
+		}
+
+		//alert("SUM: " + sum);
+		return sum;
+	}
+
+	/*-------
+		Purpose: Calculates if number is abundant, deficient, or neither.
+					It also has error checking and shows result to the user.
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function calculate(){
+		var k = 0;
+		var divisorsSum = 0;
+		var temp = document.getElementById('1').value;
+		var numbers = /[0-9]/g;
+		
+		/* Error checking for certain input boundaries, don't allow characters! Needs to be done before EVAL function is used */
+		if (temp.match(numbers)){
+			/* Solves the problem with user giving an equation to solve as input */
+			evaluate(temp);
+			k = parseInt(document.getElementById('1').value);
+			
+
+			/* Check if number is abundant, deficient, or perfect */
+			divisorsSum = divisors(k);
+			
+			 
+			/* Error checking for certain input boundaries, don't allow below 1 or above 10 and don't allow input to be blank! */
+			if (k <= 0){
+				document.getElementById('showResult').innerHTML = "Make sure value is above 0!";
+			}else if (k > 1000){
+				document.getElementById('showResult').innerHTML = "Make sure value is 1000 or BELOW!";
+			}else{
+				if (divisorsSum < k*2){
+					document.getElementById('showResult').innerHTML = "Deficient";
+				}else if (divisorsSum > k*2){
+					var result = divisorsSum  - (k*2)
+					document.getElementById('showResult').innerHTML = "Abundant by " + result;
+				}else{
+					document.getElementById('showResult').innerHTML = "Neither";
+				}
+			}	
+		}else{
+			document.getElementById('showResult').innerHTML = "Please use numbers between 1-1000!";
+		}
+		
+	}
+
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="5" face="verdana" color="black"><b>Abundant and Deficient Numbers</b></font> 
+		</center>
+		<br>
+		<div class="container">
+			<table cellspacing="0">
+				<center>Numbers between 1-1000 only accepted</center>
+				<tr>
+					<td><b>Check if number is abundant, deficient, or perfect: <input type="text" id="1"></b><br></td>	
+				</tr>
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Calculate" onclick="calculate ()"/></td><br><br>
+			<font size="5" face="verdana" color="red"><b>Number is: <span id="showResult"></span> </b></font><br>
+		</center>
+	</body>
+</html>

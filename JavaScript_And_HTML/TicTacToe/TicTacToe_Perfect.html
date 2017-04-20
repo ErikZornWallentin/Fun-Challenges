@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tic-tac-toe Game</title>
+    <style>
+        .container {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; /* this is the colour of your calculator's casing */
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 90px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+		.buttonOne {
+            width: 100%;
+            height: 90px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+		.changeColor {
+			color: red;
+		}
+		
+		.inputBox {
+            width: 40px;
+            height: 20px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+    /* CODE SECTION */
+    /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED BELOW HERE */
+	
+		/* 	
+			Author: Erik Zorn - Wallentin
+			Created: Wednesday, Sept. 23 / 2015
+			
+			Follows the rules of a normal Tic Tac Toe game, please google Tic Tac Toe wiki if you are unfamiliar with the game.
+			
+			I am a TA (Teaching Assistant) for the class CIS*1000 (Winter 2016 semester) and was requested to create a game
+			by my professor (Zoe Zhu) for the students to complete as a bonus assignment. The game I created was TicTacToe
+			where I created a template as a base and a tutorial for the students to follow in pdf or word format and the tutorial
+			shows how to create the Javascript game. This bonus assignment was accepted by the professor and is now being used!
+			
+			Features: Allows 2 players to play, you can reset the game at any time, and can set new symbols for a both players!
+
+			When someone wins, the game is over and you need to reset!
+			If all spots are filled, the game is in a TIE state and you need to reset!
+		*/
+		
+		/* Place some variables here! Example code for assignment --> var playerTurn = "One"; */
+        var playerOneSymbol = "X"; 
+		var playerTwoSymbol = "O";
+		var playerTurn = "One";
+		var gameWon = false;
+		var numOfMarks = 0;
+		
+		/* Example use of code to set text, this function is only used when game is refreshed! */
+		/* Make use of some of the lines in this function to help with completion of assignment in future steps! */
+		/* This code is a good example of how to show / get the text at the bottom of the game */
+		function init (){
+			document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+			document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			document.getElementById('playerTurn').innerHTML = playerTurn;
+			document.getElementById('playerWon').innerHTML = "";
+		}
+		
+		/* To be completed by you */
+		function placeMark (id, position){
+			if (gameWon == false){
+				if (document.getElementById(id).value == ""){
+					/* Check which player is placing mark */
+					if (playerTurn == "One"){
+						document.getElementById(id).value = playerOneSymbol
+						/* Change Player Turn */
+						playerTurn = "Two"
+					}else {
+						document.getElementById(id).value = playerTwoSymbol
+						/* Change Player Turn */
+						playerTurn = "One"
+					}
+					
+					/* Increment num of marks to keep track of how many are on the board */
+					numOfMarks++;
+					
+					/* Change Board State */
+					checkBoard();
+					
+					/* Update Player Turn Text */
+					document.getElementById('playerTurn').innerHTML = playerTurn;
+				}
+			}
+		}
+		
+		/* To be completed by you */
+		function setSymbols(){
+			var error = false;
+			playerOneSymbol = document.getElementById('playeOneSymbolText').value;
+			playerTwoSymbol = document.getElementById('playeTwoSymbolText').value;
+			
+			/* Make sure to call the resetGame() function so the board is cleared for the new symbols! */
+			resetGame ()
+			
+			/* You input checks after you reset ! */
+			if (playerOneSymbol == "" || playerTwoSymbol == ""){
+				document.getElementById('playerWon').innerHTML = "Input incorrect, using default symbols!";
+				error = true;
+			}else if (playerOneSymbol == playerTwoSymbol){
+				document.getElementById('playerWon').innerHTML = "Both symbols are the same, using default symbols!";
+				error = true;
+			}else if (playerOneSymbol.length > 1){
+				document.getElementById('playerWon').innerHTML = "Symbol length too long, using default symbols!";
+				error = true;
+			}
+			
+			if (error == true){
+				playerOneSymbol = 'X';
+				playerTwoSymbol = 'O';
+				document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+				document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			}
+			
+			/* Reset Input */
+			document.getElementById('playeOneSymbolText').value = '';
+			document.getElementById('playeTwoSymbolText').value = '';
+			
+		}
+		
+        /* To be completed by you */
+        function resetGame () {
+			/* Put the game back to reset state */
+			playerTurn = "One"
+            document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+			document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			document.getElementById('playerTurn').innerHTML = playerTurn;
+			document.getElementById('playerWon').innerHTML = "";
+			gameWon = false;
+			numOfMarks = 0;
+			
+			document.getElementById('1').value = "";
+			document.getElementById('2').value = "";
+			document.getElementById('3').value = "";
+			document.getElementById('4').value = "";
+			document.getElementById('5').value = "";
+			document.getElementById('6').value = "";
+			document.getElementById('7').value = "";
+			document.getElementById('8').value = "";
+			document.getElementById('9').value = "";
+        }
+		
+		/* To be completed by you */
+		function checkRowOrColumn(min, max, rowOrColumnOrDiagonal){
+			/* Place some more variables here to be used only for this function! Example code for assignment --> var playerOneCount = 0; */
+			var playerOneCount = 0;
+			var playerTwoCount = 0;
+			var valueChar = '';
+			var number = 0;
+			
+			
+			/* Check how we should loop through the slots of the board 
+			/* Very important to determine which logic to be used 'row', 'column', 'diagonalOne', 'diagonalTwo' --> would cover all possibilities of logic checks */
+			if (rowOrColumnOrDiagonal == 'row'){
+				number = 1;
+			}else if (rowOrColumnOrDiagonal == 'column'){
+				number = 3;
+			}else if (rowOrColumnOrDiagonal == 'diagonalOne'){
+				number = 4;
+			}else if (rowOrColumnOrDiagonal == 'diagonalTwo'){
+				number = 2;
+			}
+			
+			/* Loop through the board to see which marks are displayed, make use of the number value to determine how to do the logic check */
+			for (i = min; i <= max; i = i + number) {
+				valueChar = i.toString();
+				if (document.getElementById(valueChar).value == playerOneSymbol){
+					playerOneCount++;
+				}else if (document.getElementById(valueChar).value == playerTwoSymbol){
+					playerTwoCount++;
+				}
+			}
+			
+			/* Show if someone won! It would count 3 marks for a player, and if someone got 3 it should show the winning player */
+			if (playerOneCount == 3){
+				document.getElementById('playerWon').innerHTML = "Player One WON!!!!";
+				gameWon = true;
+			}else if (playerTwoCount == 3){
+				document.getElementById('playerWon').innerHTML = "Player Two WON!!!!";
+				gameWon = true;
+			}
+		}
+		
+		/* To be completed by you */
+		function checkBoard(){
+			/* You should call the function checkRowOrColumn 8 times here for all the possibilities to win the game */
+			/* Example code for assignment to call checkRowOrColumn for 1 of the 8 times --> checkRowOrColumn(1,3,'row'); */
+			/* checkRowOrColumn(min, max ,rowOrColumnOrDiagonal);
+			/* checkRowOrColumn(1,3,'row');  ---> 1 represents the minimum board slot the function would start at, 3 represents the last board slot to check, 'row' represents the type of logic used
+			/* This example would follow the logic for solving the top row of the Tic-tac-toe board! Make sure to follow same method for other 8 possibilities */
+			
+			/* Check Top Row */
+			checkRowOrColumn(1,3,'row');
+			/* Check Middle Row */
+			checkRowOrColumn(4,6,'row');
+			/* Check Bottom Row */
+			checkRowOrColumn(7,9,'row');
+			/* Check Top Column */
+			checkRowOrColumn(1,7,'column');
+			/* Check Middle Column */
+			checkRowOrColumn(2,8,'column');
+			/* Check Bottom Column */
+			checkRowOrColumn(3,9,'column');
+			/* Check Diagonal One */
+			checkRowOrColumn(1,9,'diagonalOne');
+			/* Check Diagonal Two */
+			checkRowOrColumn(3,7,'diagonalTwo');
+			
+			/* Reset Game if  board is full */
+			if (numOfMarks >= 9 && gameWon == false){
+				document.getElementById('playerWon').innerHTML = "TIE GAME -- Press RESET to play again!";
+			}
+		}
+        
+
+        /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED ABOVE HERE */
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<!-- Show the name of the game in font! -->
+			<font size="7" face="verdana" color="black"><b>Tic-tac-toe</b></font> 
+		</center>
+		
+		<!-- THIS SECTION IS FOR STYLING YOUR GAME -->
+		<div class="container">
+			<table cellspacing="0">
+				
+				<!-- YOU SHOULD REALLY ONLY NEED TO CHANGE THE 'placeMark( INSERT STUFF HERE )' PART OF THE CODE-->
+				<!-- AND THE 'id = ""' PART OF THE CODE   --------- example use of code:  id="2" for the second button! -->
+				
+				<tr>
+					<!-- This is an example of the top 3 slots of the Tic-tac-toe board -->
+					<td><input id="1" class="button" type="button" value="" onclick="placeMark(this.id, 1)"/></td>	
+					<td><input id="2" class="button" type="button" value="" onclick="placeMark(this.id, 2)"/></td>
+					<td><input id="3" class="button" type="button" value="" onclick="placeMark(this.id, 3)"/></td>
+				</tr>
+				<tr>
+					<td><input id="4" class="button" type="button" value="" onclick="placeMark(this.id, 4)"/></td>
+					<td><input id="5" class="button" type="button" value="" onclick="placeMark(this.id, 5)"/></td>
+					
+					<td><input id="6" class="button" type="button" value="" onclick="placeMark(this.id, 6)"/></td>
+					
+				</tr>
+				<tr>
+					<td><input id="7" class="button" type="button" value="" onclick="placeMark(this.id, 7)"/></td>
+					<td><input id="8" class="button" type="button" value="" onclick="placeMark(this.id, 8)"/></td>
+					<td><input id="9" class="button" type="button" value="" onclick="placeMark(this.id, 9)"/></td>
+				</tr>
+				
+			</table>
+		</div>
+		
+		<!-- THIS SECTION IS FOR ALL THE TEXT DISPLAYED IN THE GAME -->
+		<center>
+			<br>
+			<font size="6" face="verdana" color="black"><b>Player's Turn:  </font>
+			<font size="5" face="verdana" color="red">Player <span id="playerTurn"></span></font><br>
+			<br>
+			<font size="5" face="verdana" color="black"><b>Player One Symbol: <span class ="changeColor" id="playerOneSymbolSpan"></span> </b></font>
+			<input type="text" class="inputBox" id="playeOneSymbolText">
+			<font size="4" face="verdana" color="black"><b> <-- Set new Symbol</b></font><br>
+			<font size="5" face="verdana" color="black"><b>Player Two Symbol: <span class ="changeColor" id="playerTwoSymbolSpan"></span> </b></font>
+			<input type="text" class="inputBox" id="playeTwoSymbolText">
+			<font size="4" face="verdana" color="black"><b> <-- Set new Symbol</b></font><br>
+			<br>
+			<td><input id="reset" class="buttonSetup" type="button" value="Reset" onclick="resetGame()"/></td>
+			<td><input id="setUpEverything" class="buttonSetup" type="button" value="Set Symbols" onclick="setSymbols()"/></td><br>
+			<font size="7" face="verdana" color="red"><b><span id="playerWon"></span> </b></font><br>
+		</center>
+	</body>
+</html>

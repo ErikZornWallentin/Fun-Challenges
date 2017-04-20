@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Memorize Pattern</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 50px;
+            font-size: 30px;
+            color: #222;
+        }
+		
+		.buttonSetup {
+            width: 70px;
+            height: 100px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+    
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Feb. 16 / 2016
+		
+		This program was created for fun during my reading week break in University during 3rd year.
+		It starts off by waiting for user input, to start the game.
+		When you click on "start" button it will show you a pattern, and after it is done you can input the pattern on the buttons.
+		You will see 1-4 numbers on the button that you click and this shows the order the pattern started in from 1-4 as 1 being the first one shown, and 4 the last one shown.
+		After you input the 4 numbers on the buttons, click "check" button and it will tell you if you are correct or not.
+		If you are correct you get 1 point on your score added onto it, if you are wrong your score goes back to 0, and you can play again no matter what
+		You can also reset the game by pressing the reset button.
+	*/
+		
+		var playerInfo = "Press the start button!";
+		var gameWon = false;
+		var patternIsGoing = false;
+		var whichPattern = 0;
+		var numberOrder = 0;
+		var score = 0;
+		
+		/* Code to set everything on start, this function is only used when game is refreshed! */
+		function init (){
+			document.getElementById('playerInfo').innerHTML = playerInfo;
+			document.getElementById('playerWon').innerHTML = "";
+			document.getElementById("checkBtn").disabled = true;
+			
+			document.getElementById('1').style.background = '#FFFFFF';
+			document.getElementById('2').style.background = '#FFFFFF';
+			document.getElementById('3').style.background = '#FFFFFF';
+			document.getElementById('4').style.background = '#FFFFFF';
+			score = 0;
+			document.getElementById('score').innerHTML = score;
+		}
+		
+		/*-------
+		Purpose: Puts the game back to the original state ( when you launched it), resets all variables / buttons
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+        function resetGame () {
+			
+			
+			playerInfo = "Press the start button! ";
+			document.getElementById("startBtn").disabled = false;
+			document.getElementById("checkBtn").disabled = true;
+			document.getElementById('playerInfo').innerHTML = playerInfo;
+			document.getElementById('playerWon').innerHTML = "";
+			gameWon = false;
+			patternIsGoing = false;
+			whichPattern = 0;
+			numberOrder = 0;
+			score = 0;
+			document.getElementById('score').innerHTML = score;
+			
+			document.getElementById('1').value = "";
+			document.getElementById('2').value = "";
+			document.getElementById('3').value = "";
+			document.getElementById('4').value = "";
+			document.getElementById('1').style.background = '#FFFFFF';
+			document.getElementById('2').style.background = '#FFFFFF';
+			document.getElementById('3').style.background = '#FFFFFF';
+			document.getElementById('4').style.background = '#FFFFFF';
+        }
+		
+		/*-------
+		Purpose: This is the button you click to start the memory game, it will choose a pattern and show it so you have to memorize it
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function start(){
+			if (patternIsGoing == false){
+			
+				/* Reset everything before you start the pattern */
+				patternIsGoing = true;
+				document.getElementById('playerInfo').innerHTML = "Please watch above!";
+				document.getElementById("startBtn").disabled = true;
+				document.getElementById("resetBtn").disabled = true;
+				numberOrder = 0;
+				whichPattern = 0;
+				document.getElementById('1').style.background = '#FFFFFF';
+				document.getElementById('2').style.background = '#FFFFFF';
+				document.getElementById('3').style.background = '#FFFFFF';
+				document.getElementById('4').style.background = '#FFFFFF';
+				document.getElementById('1').value = "";
+				document.getElementById('2').value = "";
+				document.getElementById('3').value = "";
+				document.getElementById('4').value = "";
+		
+				/* Currently only 4 different patterns are used, and there is a certain delay before each button is shown */
+				var randomNum = Math.floor((Math.random() * 4) + 1);
+				if (randomNum == 1){
+					setTimeout(function(){document.getElementById(1).style.background = '#000000';},1000);
+					setTimeout(function(){document.getElementById(1).style.background = '#FFFFFF';},1500);
+					
+					setTimeout(function(){document.getElementById(2).style.background = '#000000';},1500);
+					setTimeout(function(){document.getElementById(2).style.background = '#FFFFFF';},2000);
+					
+					setTimeout(function(){document.getElementById(3).style.background = '#000000';},2000);
+					setTimeout(function(){document.getElementById(3).style.background = '#FFFFFF';},2500);
+					
+					setTimeout(function(){document.getElementById(4).style.background = '#000000';},2500);
+					setTimeout(function(){document.getElementById(4).style.background = '#FFFFFF';},3000);
+					setTimeout(function(){readyUserInput(1);},3400);
+				}else if (randomNum == 2){
+					setTimeout(function(){document.getElementById(2).style.background = '#000000';},1000);
+					setTimeout(function(){document.getElementById(2).style.background = '#FFFFFF';},1500);
+					
+					setTimeout(function(){document.getElementById(4).style.background = '#000000';},1500);
+					setTimeout(function(){document.getElementById(4).style.background = '#FFFFFF';},2000);
+					
+					setTimeout(function(){document.getElementById(3).style.background = '#000000';},2000);
+					setTimeout(function(){document.getElementById(3).style.background = '#FFFFFF';},2500);
+					
+					setTimeout(function(){document.getElementById(1).style.background = '#000000';},2500);
+					setTimeout(function(){document.getElementById(1).style.background = '#FFFFFF';},3000);
+					setTimeout(function(){readyUserInput(2);},3400);
+				}else if (randomNum == 3){
+					setTimeout(function(){document.getElementById(3).style.background = '#000000';},1000);
+					setTimeout(function(){document.getElementById(3).style.background = '#FFFFFF';},1500);
+					
+					setTimeout(function(){document.getElementById(2).style.background = '#000000';},1500);
+					setTimeout(function(){document.getElementById(2).style.background = '#FFFFFF';},2000);
+					
+					setTimeout(function(){document.getElementById(1).style.background = '#000000';},2000);
+					setTimeout(function(){document.getElementById(1).style.background = '#FFFFFF';},2500);
+					
+					setTimeout(function(){document.getElementById(4).style.background = '#000000';},2500);
+					setTimeout(function(){document.getElementById(4).style.background = '#FFFFFF';},3000);
+					setTimeout(function(){readyUserInput(3);},3400);
+				}else if (randomNum == 4){
+					setTimeout(function(){document.getElementById(4).style.background = '#000000';},1000);
+					setTimeout(function(){document.getElementById(4).style.background = '#FFFFFF';},1500);
+					
+					setTimeout(function(){document.getElementById(1).style.background = '#000000';},1500);
+					setTimeout(function(){document.getElementById(1).style.background = '#FFFFFF';},2000);
+					
+					setTimeout(function(){document.getElementById(3).style.background = '#000000';},2000);
+					setTimeout(function(){document.getElementById(3).style.background = '#FFFFFF';},2500);
+					
+					setTimeout(function(){document.getElementById(2).style.background = '#000000';},2500);
+					setTimeout(function(){document.getElementById(2).style.background = '#FFFFFF';},3000);
+					setTimeout(function(){readyUserInput(4);},3400);
+				}
+			}
+		}
+		
+		/*-------
+		Purpose: Allows the user to input the pattern in the game, this allows the check button to be activated, and disables reset button
+		Parameters: pattern ( passes in the pattern number that was used )
+		Return: NONE
+	    -------*/
+		function readyUserInput(pattern){
+			patternIsGoing = false;
+			whichPattern = pattern;
+			numberOrder = 1;
+			document.getElementById('playerInfo').innerHTML = "Input the order above!";
+			document.getElementById("resetBtn").disabled = false;
+			document.getElementById('1').style.background = '#FFFFFF';
+			document.getElementById('2').style.background = '#FFFFFF';
+			document.getElementById('3').style.background = '#FFFFFF';
+			document.getElementById('4').style.background = '#FFFFFF';
+		}
+
+		/*-------
+		Purpose: When you click on one of the 4 square's, it will input the order they were chosen with some error checking to make sure it is correct
+		Parameters: id ( checks which square was clicked on and uses its id to set a number to it to be shown on screen)
+		Return: NONE
+	    -------*/
+		function placeMark(id){
+			if (numberOrder <= 0){
+				
+			}else if (document.getElementById(id).value >= 1){
+				document.getElementById('playerInfo').innerHTML = "Input the order above!";
+				document.getElementById("checkBtn").disabled = true;
+				document.getElementById('1').value = "";
+				document.getElementById('2').value = "";
+				document.getElementById('3').value = "";
+				document.getElementById('4').value = "";
+				numberOrder = 1;
+				document.getElementById(id).value = numberOrder;
+				numberOrder++;
+			}else if (numberOrder <= 4){
+				if (numberOrder == 4){
+					document.getElementById('playerInfo').innerHTML = "Press the check button below! Good Luck!";
+					document.getElementById("checkBtn").disabled = false;
+				}
+				document.getElementById(id).value = numberOrder;
+				numberOrder++;
+			}
+		}
+		
+		/*-------
+		Purpose: After you click on the check button, and it checks the pattern it will call this to be able to play again after even if you lose or win
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function playAgain(){
+			playerInfo = "Press the start button! ";
+			document.getElementById("startBtn").disabled = false;
+			document.getElementById("checkBtn").disabled = true;
+			document.getElementById('playerInfo').innerHTML = playerInfo;
+			document.getElementById('playerWon').innerHTML = "";
+			gameWon = false;
+			patternIsGoing = false;
+			whichPattern = 0;
+			numberOrder = 0;
+			
+			document.getElementById('1').value = "";
+			document.getElementById('2').value = "";
+			document.getElementById('3').value = "";
+			document.getElementById('4').value = "";
+			document.getElementById('1').style.background = '#FFFFFF';
+			document.getElementById('2').style.background = '#FFFFFF';
+			document.getElementById('3').style.background = '#FFFFFF';
+			document.getElementById('4').style.background = '#FFFFFF';
+		}
+		
+		/*-------
+		Purpose: Checks if the pattern on the squares (numbers), matched the pattern during each round of the pattern game
+				 If it does match you get a point on your score, if it does not match you lose all your points and go back to score 0
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function checkPattern(){
+			/* Variables for each of the 4 buttons, so it has a simple pattern checking system */
+			var firstButton = false;
+			var secondButton = false;
+			var thirdButton = false;
+			var fourthButton = false;
+			
+			/* Matches the pattern used to the buttons on the screen */
+			if (whichPattern == 1){
+				if (document.getElementById('1').value == 1){
+					firstButton = true;
+				}
+				if (document.getElementById('2').value == 2){
+					secondButton = true;
+				}
+				if (document.getElementById('3').value == 3){
+					thirdButton = true;
+				}
+				if (document.getElementById('4').value == 4){
+					fourthButton = true;
+				}
+			}else if (whichPattern == 2){
+				if (document.getElementById('1').value == 4){
+					firstButton = true;
+				}
+				if (document.getElementById('2').value == 1){
+					secondButton = true;
+				}
+				if (document.getElementById('3').value == 3){
+					thirdButton = true;
+				}
+				if (document.getElementById('4').value == 2){
+					fourthButton = true;
+				}
+			}else if (whichPattern == 3){
+				if (document.getElementById('1').value == 3){
+					firstButton = true;
+				}
+				if (document.getElementById('2').value == 2){
+					secondButton = true;
+				}
+				if (document.getElementById('3').value == 1){
+					thirdButton = true;
+				}
+				if (document.getElementById('4').value == 4){
+					fourthButton = true;
+				}
+			}else if (whichPattern == 4){
+				if (document.getElementById('1').value == 2){
+					firstButton = true;
+				}
+				if (document.getElementById('2').value == 4){
+					secondButton = true;
+				}
+				if (document.getElementById('3').value == 3){
+					thirdButton = true;
+				}
+				if (document.getElementById('4').value == 1){
+					fourthButton = true;
+				}
+			}
+			
+			/* You got a point on your score */
+			if (firstButton == true && secondButton == true && thirdButton == true && fourthButton == true){
+				document.getElementById('playerWon').innerHTML = "YOU GOT IT CORRECT! GOOD JOB! ";
+				score++;
+				document.getElementById('score').innerHTML = score;
+			}else{
+				document.getElementById('playerWon').innerHTML = "Incorrect try again :(";
+				score = 0;
+				document.getElementById('score').innerHTML = score;
+			}
+			
+			setTimeout(function(){playAgain();}, 2000);
+		
+		}
+
+        
+
+        /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED ABOVE HERE */
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<!-- Show the name of the game in font! -->
+			<font size="7" face="verdana" color="black"><b>Memorize Pattern</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<!-- The 4 squares of Memorize Pattern board -->
+				<tr>
+					<td><input id="1" class="button" type="button" value="" onclick="placeMark(this.id)"/></td>	
+					<td><input id="2" class="button" type="button" value="" onclick="placeMark(this.id)"/></td>
+				</tr>
+				<tr>
+					<td><input id="3" class="button" type="button" value="" onclick="placeMark(this.id)"/></td>
+					<td><input id="4" class="button" type="button" value="" onclick="placeMark(this.id)"/></td>		
+				</tr>
+
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<font size="5" face="verdana" color="red"><span id="playerInfo"></span></font><br>
+			<br>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="resetGame ()"/></td><br>
+			<br>
+			<td><input id="startBtn" class="buttonSetup" type="button" value="Start" onclick="start ()"/></td>
+			<td><input id="checkBtn" class="buttonSetup" type="button" value="Check" onclick="checkPattern ()"/></td><br>
+			<font size="7" face="verdana" color="red">Score: <b><span id="score"></span> </b></font><br>
+			<font size="7" face="verdana" color="red"><b><span id="playerWon"></span> </b></font><br>
+		</center>
+	</body>
+</html>

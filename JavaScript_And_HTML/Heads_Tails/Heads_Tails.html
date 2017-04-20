@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Heads and Tails</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white;
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 50px;
+            font-size: 30px;
+            color: #222;
+        }
+		
+		.buttonSetup {
+            width: 70px;
+            height: 100px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+    
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Feb. 18 / 2016
+		
+		This program was created for fun during my reading week break in University during 3rd year.
+		
+		This game is Heads and Tails coin flip.
+		
+		It starts off by waiting for user input in one of the squares and asks for you to choose either Heads or Tails button.
+		Once you choose one, you are compared against the AI's choice and the winner / loser is determined.
+		You can continue to keep playing, reset at any time, and all error checking is handled.
+		
+	*/
+		
+		var playerInfo = "Click on a button above to play!";
+		var score = 0;
+		var randomChosen = "";
+		var playerChosen = "";
+		var playingNow = false;
+		
+		/*-------
+		Purpose: On launch of the game this function is called, sets up all variables
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function init (){
+			document.getElementById('playerInfo').innerHTML = playerInfo;
+			document.getElementById('playerWon').innerHTML = "";
+			score = 0;
+			randomChosen = 0;
+			playerChosen = 0;
+			playingNow = false;
+			document.getElementById('score').innerHTML = score;
+		}
+		
+		/*-------
+		Purpose: Puts the game back to the original state ( when you launched it ), resets all variables / buttons
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+        function resetGame () {
+			document.getElementById('playerInfo').innerHTML = "Click on a button above to play!";
+			document.getElementById('playerWon').innerHTML = "";
+			score = 0;
+			randomChosen = 0;
+			playerChosen = 0;
+			playingNow = false;
+			document.getElementById('score').innerHTML = score;
+        }
+
+		/*-------
+		Purpose: When you click on one of the 2 buttons's, it will play Heads and Tails game and let you know if you won or not
+		Parameters: id ( checks which square was clicked )
+		Return: NONE
+	    -------*/
+		function placeMark(id){
+			if (playingNow == false){
+				playingNow = true;
+				playerChosen = id;
+				
+				/* AI chooses either heads or tails */
+				var randomNum = Math.floor((Math.random() * 2) + 1);
+				if (randomNum == 1){
+					document.getElementById('playerInfo').innerHTML = "Heads";
+					randomChosen = "Head";
+				}else if (randomNum == 2){
+					document.getElementById('playerInfo').innerHTML = "Tails";
+					randomChosen = "Tail";
+				}
+				
+				/* Compare player with AI to see if player won or lost */
+				
+				if (playerChosen == randomChosen){
+					document.getElementById('playerWon').innerHTML = "WIN !!";
+					score = score + 1;
+				}else {
+					document.getElementById('playerWon').innerHTML = "Player Lost";
+					if (score >= 1){
+						score = score - 1;
+					}
+				}
+				document.getElementById('score').innerHTML = score;
+			}
+			playingNow = false;
+		}
+
+        /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED ABOVE HERE */
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<!-- Show the name of the game in font! -->
+			<font size="7" face="verdana" color="black"><b>Heads and Tails</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<!-- The Head and Tail board -->
+				<tr>
+					<td><input id="Head" class="button" type="button" value="Head" onclick="placeMark(this.id)"/></td>	
+					<td><input id="Tail" class="button" type="button" value="Tail" onclick="placeMark(this.id)"/></td>
+				</tr>
+
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<font size="5" face="verdana" color="red"><span id="playerInfo"></span></font><br>
+			<br>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="resetGame ()"/></td><br>
+			
+			<font size="7" face="verdana" color="red">Score: <b><span id="score"></span> </b></font><br>
+			<font size="7" face="verdana" color="red"><b><span id="playerWon"></span> </b></font><br>
+		</center>
+	</body>
+</html>

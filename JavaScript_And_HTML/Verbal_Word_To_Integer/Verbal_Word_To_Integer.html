@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Verbal Number Converter</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 40px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+	.buttonSetup {
+            width: 100px;
+            height: 40px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Mar. 8 / 2016
+		
+		This program was created to polish and improve my JavaScript programming skills.
+		
+		This script is on Verbal Number Conversion, if you don't know what that is, see below link:
+		https://www.ego4u.com/en/cram-up/vocabulary/numbers/cardinal
+		
+		Example use:
+		one hundred and six ---> "Calculate" --> 106
+		one hundred and sixty-six ---> "Calculate" --> 166
+		
+		
+		The program will calculate english verbal numbers into normal numbers
+		The program also handled error checking, it will give an error on blank input, or numbers.
+		It assumes you gave proper english verbal numbers, as some cases it will be accepted if incomplete sentences,
+		as some keywords are still accepted.
+		
+		It starts off by waiting for user input. 
+		In both textbox's on the screen you input a number and hit "Calculate" button to calculate Verbal Number Conversion!
+		You can reset the converter at any time to get back to the original state that the program started in.
+		
+	*/
+		
+	/*-------
+		Purpose: On launch of the script this function is called, calls the reset function to reset everything
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+	}
+		
+	/*-------
+		Purpose: Resets the program to the original state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function reset () {
+		document.getElementById('showResult1').innerHTML = "";
+		document.getElementById('1').value = "one hundred and six";
+	}
+
+	/*-------
+		Purpose: Calculates conversion from verbal english numbers to normal numbers
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function calculate(){
+		var hashMap = {
+    				"zero": 0,
+    				"one": 1,
+    				"two": 2, 
+    				"three": 3,
+    				"four": 4, 
+    				"five": 5, 
+    				"six" : 6, 
+    				"seven" : 7,
+    				"eight" : 8,
+    				"nine" : 9,
+    				"ten" : 10,
+    				"eleven" : 11,
+					"twelve" : 12,
+					"thirteen" : 13,
+					"fourteen" : 14,
+					"fifteen" : 15,
+					"sixteen" : 16,
+					"seventeen" : 17,
+					"eighteen" : 18,
+					"nineteen" : 19,
+					"twenty" : 2,
+					"thirty" : 3,
+					"forty" : 4,
+					"fifty" : 5,
+					"sixty" : 6,
+					"seventy" : 7,
+					"eighty" : 8,
+					"ninety" : 9,
+		};
+							
+		var input = document.getElementById('1').value;
+		var numbers = /[0-9]/g;
+		
+		/* Check for numbers in input and throw an error because numbers are not allowed */
+		if (input.match(numbers)){
+			/*  Show conversions to the user */
+			document.getElementById('showResult1').innerHTML = "Numbers were given, please use letters instead!";
+			return;
+		}else if (input == ""){
+			document.getElementById('showResult1').innerHTML = "Error with grammar or input";
+			return;
+		}
+		
+		var delimiter = / |-/
+		var splitSpaces = input.split(delimiter);
+		var convertedResult = "";
+		
+		for(var i = 0; i < splitSpaces.length; i++) {
+   			/* Trim the excess whitespace and - */
+   			if (splitSpaces[i] == "twenty" || splitSpaces[i] == "thirty" || splitSpaces[i] == "forty" ||
+   				splitSpaces[i] == "fifty" || splitSpaces[i] == "sixty" || splitSpaces[i] == "seventy" ||
+   				splitSpaces[i] == "eighty" || splitSpaces[i] == "ninety"){
+   				var tempI = i+1;
+   				if (tempI >= splitSpaces.length){
+   					convertedResult += hashMap[splitSpaces[i]] * 10;
+   				}else{
+   					convertedResult += hashMap[splitSpaces[i]];
+   				}
+   			
+   			}else if(splitSpaces[i] == "one" || splitSpaces[i] == "two" || splitSpaces[i] == "three" ||
+   				splitSpaces[i] == "four" || splitSpaces[i] == "five" || splitSpaces[i] == "six" ||
+   				splitSpaces[i] == "seven" || splitSpaces[i] == "eight" || splitSpaces[i] == "nine"){
+   				
+   				var tempI = i + 1;
+   				if (splitSpaces[tempI] == "hundred"){
+   				
+   					tempI = tempI + 1;
+   					if (splitSpaces[tempI] == "and"){
+   						tempI = tempI + 1;
+   						if (splitSpaces[tempI] == "one" || splitSpaces[tempI] == "two" || splitSpaces[tempI] == "three" ||
+   							splitSpaces[tempI] == "four" || splitSpaces[tempI] == "five" || splitSpaces[tempI] == "six" ||
+   							splitSpaces[tempI] == "seven" || splitSpaces[tempI] == "eight" || splitSpaces[tempI] == "nine"){
+   							convertedResult += hashMap[splitSpaces[i]] * 10;
+   						}else{
+   							convertedResult += hashMap[splitSpaces[i]];
+   						}
+   					}else{
+   						convertedResult += hashMap[splitSpaces[i]] * 100;
+   					}  					
+   				}else{
+   					convertedResult += hashMap[splitSpaces[i]];
+   				}
+   			
+   			}else if(splitSpaces[i] == "hundred" || splitSpaces[i] == "and"){
+				//Do nothing
+   			}else if (splitSpaces[i] == "zero"){
+   				convertedResult = 0;
+   				document.getElementById('showResult1').innerHTML = convertedResult;
+   				return;
+   			}else{
+   				convertedResult += hashMap[splitSpaces[i]];
+   			}
+   			
+		}
+
+		if (convertedResult.indexOf("undefined") != -1) {
+			document.getElementById('showResult1').innerHTML = "Error with grammar or input";
+			return;
+		}else if (convertedResult == undefined){
+			document.getElementById('showResult1').innerHTML = "Error with grammar or input";
+			return;
+		}else{
+			document.getElementById('showResult1').innerHTML = convertedResult;
+			return;
+		}
+	
+	}
+		
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="7" face="verdana" color="black"><b>Verbal Number Converter</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<tr>
+					<td><b>MAX verbal numbers accepted ( 0 - 999 )<br>Convert verbal numbers (one hundred and six) into integers ( 106 ): <input type="text" id="1"></b><br></td>	
+				</tr>
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Calculate" onclick="calculate ()"/></td><br><br>
+			<font size="5" face="verdana" color="red"><b><span id="showResult1"></span> </b></font><br>
+		</center>
+	</body>
+</html>

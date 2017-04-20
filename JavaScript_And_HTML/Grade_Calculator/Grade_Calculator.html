@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Grade Calculator</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white;
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 50px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+	.buttonSetup {
+            width: 100px;
+            height: 100px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Tue. 23 / 2016
+		
+		I was bored, and wanted to keep my JavaScript programming skills sharpened over time, so I made this Grade Calculator script!
+
+		The code contains HTML and Javascript that you can review in the Grade_Calculator.html file.
+
+		Double click (open) the file called Grade_Calculator.html in a browser so you can use the Grade Calculator!
+
+		Features: Add up your grades, see your final mark, reset the calculator
+
+		Use: 	Input your grades and when you are ready to check your grade, hit calculate! 
+				You can also reset the calculator at any time!
+		
+	*/
+	
+		
+	/*-------
+		Purpose: Called on startup when you start the Grade Calculator script, it will call the reset function
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+	}
+	
+	/*-------
+		Purpose: Put's the program back to reset state, and puts all variables into the default state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function reset () {
+		/* Put the program back to reset state */
+		document.getElementById('showGrade').innerHTML = "";
+			
+		document.getElementById('1').value = "0";
+		document.getElementById('2').value = "0";
+		document.getElementById('3').value = "0";
+		document.getElementById('4').value = "0";
+		document.getElementById('5').value = "0";
+		document.getElementById('6').value = "0";
+		document.getElementById('7').value = "0";
+	}
+
+	/*-------
+		Purpose: When you click on calculate button it will calculate your final grade,
+				 Error checcking is implemented to make sure you don't input a mark greater than what it takes
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function calculate(){
+		var finalMark = 0;
+		var error = false;
+
+		tempMark = document.getElementById('1').value;
+		if (tempMark > 20){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('2').value;
+		if (tempMark > 5){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('3').value;
+		if (tempMark > 5){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('4').value;
+		if (tempMark > 10){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('5').value;
+		if (tempMark > 10){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('6').value;
+		if (tempMark > 30){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+		tempMark = document.getElementById('7').value;
+		if (tempMark > 20){
+			error = true;
+		}
+		finalMark = finalMark + parseInt(tempMark);
+
+		if (error == false){
+			document.getElementById('showGrade').innerHTML = finalMark;
+		}else{
+			document.getElementById('showGrade').innerHTML = "ERROR - Input incorrect";
+		}
+	}
+		
+
+        
+
+        /* ANY CODE FOR FUNCTIONS SHOULD BE PLACED ABOVE HERE */
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="7" face="verdana" color="black"><b>Grade Calculator</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<tr>
+					<td><b>Lab Participation: <input type="text" id="1"></b> / 20 <br></td>	
+					
+				</tr>
+				<tr>
+					<td><b>Assignment 1: <input type="text" id="2"></b> / 5 <br></td>	
+					
+				</tr>
+				<tr>
+					<td><b>Assignment 2: <input type="text" id="3"></b> / 5 <br></td>	
+				</tr>
+				<tr>
+					<td><b>Assignment 3: <input type="text" id="4"></b> / 10 <br></td>	
+				</tr>
+				<tr>
+					<td><b>Assignment 4: <input type="text" id="5"></b> / 10 <br></td>	
+				</tr>
+				<tr>
+					<td><b>Assignment 5: <input type="text" id="6"></b> / 30 <br></td>	
+				</tr>
+				<tr>
+					<td><b>Final Exam: <input type="text" id="7"></b> / 20 <br></td>	
+				</tr>	
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Calculate" onclick="calculate ()"/></td><br>
+			<font size="7" face="verdana" color="red"><b>Final Grade: <span id="showGrade"></span> </b></font><br>
+		</center>
+	</body>
+</html>

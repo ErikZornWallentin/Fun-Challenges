@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hangman</title>
+    <style>
+        .container {
+            width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid black;
+            border-radius: 1%;
+            background-color: white;
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 5%;
+            padding: 20px;
+        }
+        
+        table td {
+            width: 10%;
+            margin: 10px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 40px;
+            height: 40px;
+            font-size: 15px;
+            color: #222;
+        }
+		
+		.buttonSetup {
+            width: 120px;
+            height: 40px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Feb. 29 / 2016
+		
+		This program was created to polish and improve my JavaScript programming skills.
+		
+		This is a known game called Hangman where you guess a word and try to get it correct from using letters.
+		The letters you get incorrect puts you closer to losing, while correct letters gets you closer to winning.
+		When you win you can reset the game to try a new word.
+		Also you can SHOW your word at any time for hints!
+		
+		If you are not familiar with Hangman, check out the rules here:
+		https://en.wikipedia.org/wiki/Hangman
+
+		I was lazy and never made the "Man", so you get 5 attempts per word to guess it correctly before you lose! 
+		It will show current attempts left on screen.
+
+		The script was more about the logic behind solving the game, not about drawing stuff in JavaScript.
+		
+		It starts off by waiting for user input, and you have 5 attempts left to win the game.
+		In the textbox on the screen you will see a blank name, and all the letters of the alphabet will be shown also.
+		Click on a letter to guess if it was in the word or not, if it was not you your attempt score goes down,
+		and if you are correct the letters will show up!
+		You can reset the game at any time, or show the word at any time!
+		
+	*/
+	
+	var wordDictionary = ["HELLO", "TREE", "APPLE", "ORANGE", "FRUIT", "BERRY", "WORLD", "CAT", "DOG"];
+	var wordSelected = "";
+	var tempWord = "";
+	var wordSetup = "";
+	var attemptsLeft = 5;
+	var gameLost = false;
+	var gameWon = false;
+	
+	/*-------
+		Purpose: Replaces character at index slot
+		Parameters: index ( the index number ), character ( character to be changed to )
+		Return: String result ( the new string )
+	-------*/
+	String.prototype.replaceAt = function(index, character) {
+		/* Script used from http://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
+			Author: Fabio Phms
+			I do not claim this function, used this as a way for a quick prototype result, I understand the logic behind it.
+		*/
+    	return this.substr(0, index) + character + this.substr(index+character.length);
+	}
+	
+	/*-------
+		Purpose: On launch of the script this function is called, calls the reset function to reset everything
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+		selectWord();
+	}
+	
+	/*-------
+		Purpose: Selects a random word from an array and makes it "blank" on the text display
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function selectWord(){
+    	wordSelected = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
+    	wordSetup = wordSelected;
+    	
+    	for (var i = 0; i < wordSelected.length; i++)  {
+  			wordSetup = wordSetup.replaceAt(i, "-");
+		}
+		
+		document.getElementById('1').value = wordSetup;
+		tempWord = document.getElementById('1').value;
+    }
+		
+	/*-------
+		Purpose: Resets the program to the original state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+    function reset () {
+		/* Put the game back to reset state */
+		document.getElementById('showInfo').innerHTML = "";
+		wordSelected = "";
+		tempWord = "";
+		wordSetup = "";
+		attemptsLeft = 5;
+		document.getElementById('attempts').innerHTML = attemptsLeft;
+		document.getElementById('1').value = "";
+		gameLost = false;
+		gameWon = false;
+		selectWord();
+
+    }
+    
+	/*-------
+		Purpose: Shows the hidden word at the bottom of the screen
+		Parameters: NONE
+		Return: NONE
+	-------*/
+    function showWord(){
+    	document.getElementById('showInfo').innerHTML = "Word is: " + wordSelected;
+    }
+    
+	/*-------
+		Purpose: Checks if the guess letter is part of the word or not, and gives a correct response to the user in exchange
+		Parameters: id ( alphabet letter used to guess the word )
+		Return: NONE
+	-------*/
+	function guessLetter(id){
+		if (gameLost == false && gameWon == false){
+			
+			var tempId = id;
+			var tempChar = "";
+			var foundWord = false;
+		
+			/* Checks to see if the character is in the word itself, and stores it to a temp string */
+			for (var i = 0; i < wordSelected.length; i++) {
+				tempChar = wordSelected.charAt(i);
+  				if (tempId == tempChar){
+  					tempWord = tempWord.replaceAt(i, id);
+  					foundWord = true;
+  				}
+			}
+		
+			document.getElementById('1').value = tempWord;
+		
+			/* Checks state of game */
+			if (foundWord == false){
+				if (attemptsLeft <= 1){
+					attemptsLeft = 0;
+					document.getElementById('attempts').innerHTML = attemptsLeft;
+					gameLost = true;
+					document.getElementById('showInfo').innerHTML = "You lost! Click Reset to try again!";
+				}else{
+					attemptsLeft = attemptsLeft - 1;
+					document.getElementById('attempts').innerHTML = attemptsLeft;
+				}
+			}
+			
+			if (tempWord == wordSelected){
+				gameLost = false;
+				gameWon = true;
+				document.getElementById('showInfo').innerHTML = "You WON! Click Reset to try again!";
+			}
+		}
+	}
+		
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="7" face="verdana" color="black"><b>Hangman</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+					<br><br>
+					<center>
+					<b>Guess Word: <input type="text" id="1" size="35" disabled></b> <br><br><font size="6" face="verdana" color="red"> Attempts Left: <b><span id="attempts"></span> </b></font><br> <br>
+					<br>
+					<input class="button" type="button" id="A" value="A" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="B" value="B" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="C" value="C" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="D" value="D" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="E" value="E" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="F" value="F" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="G" value="G" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="H" value="H" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="I" value="I" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="J" value="J" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="K" value="K" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="L" value="L" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="M" value="M" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="N" value="N" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="O" value="O" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="P" value="P" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="Q" value="Q" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="R" value="R" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="S" value="S" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="T" value="T" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="U" value="U" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="V" value="V" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="W" value="W" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="X" value="X" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="Y" value="Y" onclick= "guessLetter(this.value)"></button>
+					<input class="button" type="button" id="Z" value="Z" onclick= "guessLetter(this.value)"></button>
+					</center>
+					<br>
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Show Word" onclick="showWord ()"/></td><br><br>
+			<font size="6" face="verdana" color="red"><b><span id="showInfo"></span> </b></font><br>
+		</center>
+	</body>
+</html>

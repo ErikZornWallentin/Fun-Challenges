@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Accuracy Vs Resilience Calculator</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+		
+		span.smalltab{
+			padding: 0 10px; 
+		}
+		
+		span.tab{
+			padding: 0 10px;
+		}
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 30px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+		.buttonSetup {
+            width: 100px;
+            height: 30px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Thursday, Mar. 17 / 2016
+		
+		The was created during my 3rd year of University.
+		This was part of a personal project that I did on my spare time.
+		I needed to calculate an attacker accuracy vs defender resilience, and this program does just that.
+		I pulled inspiration from a theorycrafter that posted their "guess" of what the system is in Summoners War (Mobile App).
+		I did modifications and changed the system a bit to my own needs, his also does not consider every possibility and was not complete.
+		Mine is fully complete and handles every case, with simpler logic and better modifications.
+
+		Understanding the Calculator:
+			
+			
+			Accuravy Vs Resililence
+				Chances of resisting debuff is either 10% or (Resilience - Accuracy), whichever is higher.
+				Chances of applying debuff is 90% or 100% - (Resilience - Accuracy).
+				There will always be at least 10% chance of resisting debuff, or 10% to land debuff depending on situation.
+				
+			Debuff Definition: A negative "Status Effect" on any monster that gives them detrimental effects.
+				Example: Power Down Status Effect on a monster gives the monster -30% power, as a negative effect to the monster Power attribute.
+				
+			The purpose of this calculator is when a monster wants to put a "Debuff" on another monster, this function will determine if is activated,
+			if it passes the activation test and calculates if the debuff will land on the enemy monster or not depending on the attackers accuracy vs 
+			the defender resilience.
+				
+			This is a visual representation of what is happening in the code, and for any developer / user to also understand what is happening. 
+				
+			*** The number codes from Applied - # or Failed - # are for the programmer to know where it was a success or fail in the code quickly. ***
+				
+			Activation Chance: The value to determine the skill's activation chance. Needs to pass this check to even check attacker acc vs defender resilience.
+			Activation Random Number: The value that goes against the Activation Chance value. This is randomly rolled or allows for user input.
+			Debuff Effect Random Number: The value that goes against the status effect chance of landing. This is randomly rolled or allows for user input.
+			Attack Accuracy: A value that is between 0-100. Higher Accuracy of attacker means higher chance of debuff applying.
+			Defender Resilience: A value that is between 0-100. Higher resilience of defender means less chance of a debuff applying.
+
+		Brief Description:
+			- Chances of resisting debuff is either 10% or (Resilience - Accuracy), whichever is higher.
+			- Chances of applying debuff is 90% or 100% - (Resilience - Accuracy).
+			- There will always be at least 10% chance of resisting debuff / land debuff depending on situation. 
+			
+		Generate Activation Number (Check Box): If it is checked it will automatically generate a new Activation Random Number for you.
+		Geberate Debuff Effect Number (Check Box): If it is checked it will automatically generate a new Debuff Effect Random Number for you.
+
+		Output Results:
+			It will let you know if you passed the activation check or not, if you fail it will automatically show failed on everything.
+			If the activation check passed, it will put attacker accuracy vs defender resilience against each other.
+			It will show if the debuff was applied or not, and give a number code back to show where in the code it passed or failed.
+			
+		Example Use 1:
+			Activation Chance: 100
+			Activation Random Number: 27
+			Debuff Effect Random Number: 90
+			Attacker Accuracy: 92
+			Defender Resilience: 100
+			Generate Activation Number: NOT CHECKED
+			Generate Debuff Effect Number: NOT CHECKED
+			
+			--- OUTPUT ---
+			Activation Check: PASS
+			Debuff Applied: DEBUFF APPLIED - 3
+			Debuff Chance: 90%
+			
+		Example Use 2:	
+			Activation Chance: 100
+			Activation Random Number: 27
+			Debuff Effect Random Number: 20
+			Attacker Accuracy: 29
+			Defender Resilience: 100
+			Generate Activation Number: NOT CHECKED
+			Generate Debuff Effect Number: NOT CHECKED
+			
+			--- OUTPUT ---
+			Activation Check: PASS
+			Debuff Applied: DEBUFF APPLIED - 1
+			Debuff Chance: 29%
+		
+	*/
+		
+	/*-------
+		Purpose: On launch of the script this function is called, calls the reset function to reset everything
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+	}
+		
+	/*-------
+		Purpose: Resets the program to the original state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function reset () {
+		document.getElementById('showResult1').innerHTML = "";
+		document.getElementById('showResult2').innerHTML = "";
+		document.getElementById('showResult3').innerHTML = "";
+		document.getElementById('1').value = "100.0";
+		document.getElementById('2').value = "27.0";
+		document.getElementById('3').value = "90.0";
+		document.getElementById('4').value = "92.0";
+		document.getElementById('5').value = "100.0";
+		document.getElementById("Generate1").checked = false;
+		document.getElementById("Generate2").checked = false;
+	}
+
+	/*-------
+		Purpose: Calculates the accuracy of attacker vs resilience of defender to determine if a debuff will be applied or not. 
+			     See notes at top of file for full details of how calculations are done.
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function calculate(){
+		var activationChance = parseFloat(document.getElementById('1').value);
+		var activationRandomNum = parseFloat(document.getElementById('2').value);
+		var statusEffectRandomNum = parseFloat(document.getElementById('3').value);
+		var attackerAccuracy = parseFloat(document.getElementById('4').value);
+		var defenderResilience = parseFloat(document.getElementById('5').value);
+		
+		var activationCheck = false;
+		
+		var randomChance = 0.0;
+		var secondRandomChance = 0.0;
+		
+		var firstChecked = document.getElementById("Generate1").checked;
+		var secondChecked = document.getElementById("Generate2").checked;
+		
+		/* Check if we want to generate a random number or accept number given by user */
+		if (firstChecked){
+			randomChance = Math.random();
+			activationRandomNum = randomChance * 100;
+			document.getElementById('2').value = activationRandomNum;
+		}else{
+			randomChance = activationRandomNum / 100.0;
+		}
+		
+		if (secondChecked){
+			secondRandomChance = Math.random();
+			statusEffectRandomNum = secondRandomChance * 100;
+			document.getElementById('3').value = statusEffectRandomNum;
+		}else{
+			secondRandomChance = statusEffectRandomNum / 100.0;
+		}
+		
+		activationChance = activationChance / 100;
+		if (activationChance == 0){
+			document.getElementById('showResult1').innerHTML = "FAILED ACTIVATION CHECK";
+			document.getElementById('showResult2').innerHTML = "";
+			document.getElementById('showResult3').innerHTML = "";
+		}else if (randomChance <= activationChance){
+			document.getElementById('showResult1').innerHTML = "PASS";
+			activationCheck = true;
+		}else{
+			document.getElementById('showResult1').innerHTML = "FAILED ACTIVATION CHECK";
+			document.getElementById('showResult2').innerHTML = "";
+			document.getElementById('showResult3').innerHTML = "";
+		}
+		
+		if (activationCheck){
+			var temp = (defenderResilience - attackerAccuracy) / 100.0;
+			//alert(temp);
+			/* Check temp is greater than the normal resist checker */
+			if (temp > 0.10){
+				/* Chance of debuff applying now is 100% - temp */
+				var result = 1.0 - temp;
+				if (result > 0.10){
+					if (secondRandomChance <= result){
+						document.getElementById('showResult2').innerHTML = "DEBUFF APPLIED - 1";
+					}else{
+						document.getElementById('showResult2').innerHTML = "FAILED - 1";
+						document.getElementById('showResult3').innerHTML = result + "%";
+					}
+					document.getElementById('showResult3').innerHTML = result * 100 + "%";
+				}else{
+					/* On or below 10% threshold -- so only 10% chance to apply debuff */
+					if (secondRandomChance <= 0.10){
+						document.getElementById('showResult2').innerHTML = "DEBUFF APPLIED - 2";
+					}else{
+						document.getElementById('showResult2').innerHTML = "FAILED - 2";
+					}
+					document.getElementById('showResult3').innerHTML = 10 + "%";
+				}
+			}else{
+				/* Chance of debuff applying now is 100% - 10% = 90% */
+				if (secondRandomChance <= 0.90){
+					document.getElementById('showResult2').innerHTML = "DEBUFF APPLIED - 3";
+				}else{
+					document.getElementById('showResult2').innerHTML = "FAILED - 3";
+				}
+				document.getElementById('showResult3').innerHTML = 90 + "%";
+			}
+		}
+	}
+		
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="5" face="verdana" color="black"><b>Accuracy Vs Resilience Calculator</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<br>
+				<font size="2" face="verdana" color="red"><span class="tab"></span>- Chances of resisting debuff is either 10% or (Resilience - Accuracy), whichever is higher.   </font><br>
+				<font size="2" face="verdana" color="red"><span class="tab"></span>- Chances of applying debuff is 90% or 100% - (Resilience - Accuracy).   </font><br>
+				<font size="2" face="verdana" color="red"><span class="tab"></span>- There will always be at least 10% chance of resisting debuff / land debuff depending on situation. </font><br>
+				<br>
+				<center>
+					<font size="2" face="verdana" color="black"><span class="tab"></span> All values between 0-100 (they are converted in the program for you) </font><br>
+				</center>
+				<tr>
+					<td><b>Activation Chance: <input type="text" id="1" size="10"></b><br></td>
+				</tr>
+				<tr>
+					<td><b>Activation Random Number: <input type="text" id="2"></b><br></td>
+				</tr>
+				<tr>
+					<td><b>Debuff Effect Random Number: <input type="text" id="3" size="23"></b><br></td>
+				</tr>
+				<tr>
+					<td><b>Attacker Accuracy: <input type="text" id="4" size="11"></b><br></td>
+				</tr>
+				<tr>
+					<td><b>Defender Resilience: <input type="text" id="5" size="12"></b><br></td>
+				</tr>
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Calculate" onclick="calculate ()"/></td><br><br>
+			
+			<font size="2" face="verdana" color="black"><span class="tab"></span> Generate a random number for above options (check box) or accept value given by user (not checked) </font><br><br>
+			<input type="checkbox" id="Generate1" name="generate1" value="Generate1">Generate Activation Number<br>
+			<input type="checkbox" id="Generate2" name="generate2" value="Generate2">Generate Debuff Effect Number<br>
+			<font size="4" face="verdana" color="red"><b>Activation Check: </b><span id="showResult1"></span></font><br>
+			<font size="4" face="verdana" color="red"><b>Debuff Applied: </b><span id="showResult2"></span></font><br>
+			<font size="4" face="verdana" color="red"><b>Debuff Chance: </b><span id="showResult3"></span></font><br>
+		</center>
+	</body>
+</html>

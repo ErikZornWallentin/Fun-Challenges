@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Connect Four Game</title>
+    <style>
+        .container {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 68px;
+            height: 50px;
+            font-size: 20px;
+            color: black;
+			background-color: orange;
+			border-top-left-radius: 30px 30px;
+			border-bottom-right-radius: 30px 30px;
+			border-bottom-left-radius: 30px 30px;
+			border-top-right-radius: 30px 30px;	
+        }
+		
+		.button:hover {
+			background-color: #79d279;
+		}
+		
+		.buttonOne {
+            width: 100%;
+            height: 90px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+		.changeColor {
+			color: red;
+		}
+		
+		.inputBox {
+            width: 40px;
+            height: 20px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">		
+		/* 	
+			Author: Erik Zorn - Wallentin 
+			Created: Thursday, Feb. 11 / 2016
+			I was bored, and wanted to keep my JavaScript programming skills sharpened over time, so I made this Connect Four game!
+			It follows the rules of a normal Connect Four game where you put a disc into a slot and it slides to the bottom of an available slot in that coloumn.
+			When a player gets 4 in a row of their disc ( row, column, or diagonal) they win!
+			
+			If you are unfamiliar with the Connect Four game, look at this wiki for the rules:
+			https://en.wikipedia.org/wiki/Connect_Four
+			
+			Features: Allows 2 players to play, you can reset the game at any time, and it solves the game when its in a winning / losing / tie state
+			When someone wins, the game is over and you need to reset!
+			If all spots are filled, the game is in a TIE state and you need to reset!
+		*/
+
+        var playerOneSymbol = "X"; 
+		var playerTwoSymbol = "O";
+		var playerTurn = "One";
+		var gameWon = false;
+		var numOfDiscs = 0;
+		
+		/*-------
+		Purpose: Called when the game runs for the first time
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function init (){
+			document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+			document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			document.getElementById('playerTurn').innerHTML = playerTurn;
+			document.getElementById('playerWon').innerHTML = "";
+		}
+		
+		/*-------
+		Purpose: This function checks the slot given and places the mark at the bottom of that slot with unused space
+		Parameters: id ( id of the button ), value ( icon to be displaced on button ), slot ( which spot the button is in )
+		Return: NONE
+	    -------*/
+		function checkBelow(id, value, slot){
+			var placedDisc = false;
+			var tempId = 35;
+			var position = 6;
+			
+			/* Find the last slot at the bottom and set value to that */
+			tempId = tempId + slot;
+			
+			
+			while (placedDisc == false){
+				if (document.getElementById(tempId).value == ""){
+					document.getElementById(tempId).value = value;
+					
+					if (value == "X"){
+						document.getElementById(tempId).style.backgroundColor = "red";
+					}else{
+						document.getElementById(tempId).style.backgroundColor = "lightblue";
+					}
+					
+					placedDisc = true;
+				}
+				/* Start going up in columns in that slot */
+				tempId = tempId - 7;
+			}
+		}
+		
+		/*-------
+		Purpose: Handles the place disc data and calls the logic check to see if a player has won or not
+		Parameters: id ( id of the button ), slot ( which spot the button is in )
+		Return: NONE
+	    -------*/
+		function placeDisc(id, slot){
+			if (gameWon == false){
+				if (document.getElementById(id).value == ""){
+					/* Check which player is placing mark */
+					if (playerTurn == "One"){
+						checkBelow(id, "X", slot);
+						/* Change Player Turn */
+						playerTurn = "Two"
+					}else {
+						checkBelow(id, "O", slot);
+						/* Change Player Turn */
+						playerTurn = "One"
+					}
+					
+					/* Increment num of discs to keep track of how many are on the board */
+					numOfDiscs++;
+					
+					/* Check Game State */
+					checkBoard();
+					
+					/* Update Player Turn Text */
+					document.getElementById('playerTurn').innerHTML = playerTurn;
+				}
+			}
+		}
+		
+		/*-------
+		Purpose: Logic for checking the board if the game is in a winning state or not ( 4 in a row / column / diagonal of the same colour )
+		Parameters: min (start checking at id number), max ( stop checking at id number), rowOrColumnOrDiagonal ( which logical check to use )
+		Return: NONE
+	    -------*/
+		function checkRowOrColumn(min, max, rowOrColumnOrDiagonal){
+			/* Do not do anymore logic checks as we found the winning pieces */
+			if (gameWon != true){
+				var playerOneCount = 0;
+				var playerTwoCount = 0;
+				var valueChar = '';
+				var number = 0;
+				
+				/* Check how we should loop through the slots of the board 
+				/* Very important to determine which logic to be used 'row', 'column', 'diagonalOne', 'diagonalTwo' --> would cover all possibilities of logic checks */
+				if (rowOrColumnOrDiagonal == 'row'){
+					number = 1;
+				}else if (rowOrColumnOrDiagonal == 'column'){
+					number = 7;
+				}else if (rowOrColumnOrDiagonal == 'diagonalOne'){
+					number = 8;
+				}else if (rowOrColumnOrDiagonal == 'diagonalTwo'){
+					number = 6;
+				}
+				
+				/* Loop through the board to see which discs are displayed, make use of the number value to determine how to do the logic check */
+				for (i = min; i <= max; i = i + number) {
+					if (playerOneCount != 4 && playerTwoCount != 4){
+						if (document.getElementById(i).value == playerOneSymbol){
+							playerOneCount++;
+							/* Show the winning pieces by changing their font color on the board, this will only show up if we found 4 in a row */
+							document.getElementById(i).style.color = "wheat";
+							
+							/* Reset colours of player two symbol */
+							for (n = min; n <= max; n = n + number) {
+								if (document.getElementById(n).value == playerTwoSymbol){
+									document.getElementById(n).style.color = "black";
+								}	
+							}
+							playerTwoCount = 0;
+						}else if (document.getElementById(i).value == playerTwoSymbol){
+							playerTwoCount++;
+							/* Show the winning pieces by changing their font color on the board, this will only show up if we found 4 in a row */
+							document.getElementById(i).style.color = "wheat";
+							
+							/* Reset colours of player one symbol */
+							for (n = min; n <= max; n = n + number) {
+								if (document.getElementById(n).value == playerOneSymbol){
+									document.getElementById(n).style.color = "black";
+								}	
+							}
+							playerOneCount = 0;
+						}else if (document.getElementById(i).value == ""){
+							playerOneCount = 0;
+							playerTwoCount = 0;
+						}
+					}
+				}
+				
+				/* Show if someone won! It would count 4 discs for a player, and if someone got 4 it should show the winning player */
+				if (playerOneCount == 4){
+					document.getElementById('playerWon').innerHTML = "Player One WON!!!!";
+					gameWon = true;
+				}else if (playerTwoCount == 4){
+					document.getElementById('playerWon').innerHTML = "Player Two WON!!!!";
+					gameWon = true;
+				}else{
+					/* Reset all colours */
+					for (i = min; i <= max; i = i + number) {
+						/* Show the winning pieces by changing their font color on the board, this will only show up if we found 4 in a row */
+						document.getElementById(i).style.color = "black";
+					}
+				}
+			}
+		}
+		
+		/*-------
+		Purpose: Handle all the calls to check the board state, it will call all the logic checks for rows, columns, diagonal and will know when there is a tie
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function checkBoard(){	
+			/* Check All Rows */
+			checkRowOrColumn(1, 7, 'row');
+			checkRowOrColumn(8, 14, 'row');
+			checkRowOrColumn(15, 21, 'row');
+			checkRowOrColumn(22, 28, 'row');
+			checkRowOrColumn(29, 35, 'row');
+			checkRowOrColumn(36, 42, 'row');
+			/* Check All Columns */
+			checkRowOrColumn(1, 36, 'column');
+			checkRowOrColumn(2, 37, 'column');
+			checkRowOrColumn(3, 38, 'column');
+			checkRowOrColumn(4, 39, 'column');
+			checkRowOrColumn(5, 40, 'column');
+			checkRowOrColumn(6, 41, 'column');
+			checkRowOrColumn(7, 42, 'column');
+			/* Check All for diagonals that go left to right (top to bottom) */
+			checkRowOrColumn(4, 28, 'diagonalOne');
+			checkRowOrColumn(3, 35, 'diagonalOne');
+			checkRowOrColumn(2, 42, 'diagonalOne');
+			checkRowOrColumn(1, 41, 'diagonalOne');
+			checkRowOrColumn(8, 40, 'diagonalOne');
+			checkRowOrColumn(15, 39, 'diagonalOne');
+			/* Check All for diagonals that go right to left (top to bottom) */
+			checkRowOrColumn(4, 22, 'diagonalTwo');
+			checkRowOrColumn(5, 29, 'diagonalTwo');
+			checkRowOrColumn(6, 36, 'diagonalTwo');
+			checkRowOrColumn(7, 37, 'diagonalTwo');
+			checkRowOrColumn(14, 38, 'diagonalTwo');
+			checkRowOrColumn(21, 39, 'diagonalTwo');
+
+			/* Reset Game if  board is full */
+			if (numOfDiscs >= 42 && gameWon == false){
+				document.getElementById('playerWon').innerHTML = "TIE GAME -- Press RESET to play again!";
+			}
+		}
+		
+		
+		
+		
+        /*-------
+		Purpose: Reset's the game and all the variables / button to the original state ( when game was launched )
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+        function resetGame () {
+			/* Put the game back to reset state */
+			playerTurn = "One"
+            document.getElementById('playerOneSymbolSpan').innerHTML = playerOneSymbol;
+			document.getElementById('playerTwoSymbolSpan').innerHTML = playerTwoSymbol;
+			document.getElementById('playerTurn').innerHTML = playerTurn;
+			document.getElementById('playerWon').innerHTML = "";
+			gameWon = false;
+			numOfDiscs = 0;
+			
+			/* Reset the original states of the button's which are orange background colour and black text with no values in them */
+			for (i = 1; i <= 42; i = i + 1) {
+				document.getElementById(i).value = "";
+				document.getElementById(i).style.backgroundColor = "orange";
+				document.getElementById(i).style.color = "black";
+			}
+        }
+        
+
+        /* END OF CODE SECTION */
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<!-- Show the name of the game in font! -->
+			<font size="7" face="verdana" color="black"><b>Connect Four</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				
+				<tr>
+					<!-- This is the top 7 slots of the Connect Four board -->
+					<td><input id="1" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="2" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="3" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="4" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="5" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="6" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="7" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+
+				</tr>
+				<tr>
+					<td><input id="8" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="9" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="10" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="11" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="12" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="13" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="14" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+					
+				</tr>
+				<tr>
+					<td><input id="15" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="16" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="17" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="18" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="19" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="20" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="21" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+				</tr>
+				<tr>
+					<td><input id="22" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="23" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="24" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="25" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="26" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="27" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="28" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+				</tr>
+				<tr>
+					<td><input id="29" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="30" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="31" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="32" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="33" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="34" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="35" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+				</tr>
+				<tr>
+					<td><input id="36" class="button" type="button" value="" onclick="placeDisc(this.id, 1)"/></td>	
+					<td><input id="37" class="button" type="button" value="" onclick="placeDisc(this.id, 2)"/></td>
+					<td><input id="38" class="button" type="button" value="" onclick="placeDisc(this.id, 3)"/></td>
+					<td><input id="39" class="button" type="button" value="" onclick="placeDisc(this.id, 4)"/></td>
+					<td><input id="40" class="button" type="button" value="" onclick="placeDisc(this.id, 5)"/></td>
+					<td><input id="41" class="button" type="button" value="" onclick="placeDisc(this.id, 6)"/></td>
+					<td><input id="42" class="button" type="button" value="" onclick="placeDisc(this.id, 7)"/></td>
+				</tr>
+				
+			</table>
+		</div>
+		
+		<center>
+			<br>
+			<font size="6" face="verdana" color="black"><b>Player's Turn:  </font>
+			<font size="5" face="verdana" color="red">Player <span id="playerTurn"></span></font><br>
+			<br>
+			<font size="5" face="verdana" color="black"><b>Player One Symbol: <span class ="changeColor" id="playerOneSymbolSpan"></span> </b></font>
+			<br>
+			<font size="5" face="verdana" color="black"><b>Player Two Symbol: <span class ="changeColor" id="playerTwoSymbolSpan"></span> </b></font>
+			<br>
+			<td><input id="reset" class="buttonSetup" type="button" value="Reset" onclick="resetGame()"/></td>
+			<br>
+			<font size="5" face="verdana" color="red"><b><span id="playerWon"></span> </b></font><br>
+		</center>
+	</body>
+</html>

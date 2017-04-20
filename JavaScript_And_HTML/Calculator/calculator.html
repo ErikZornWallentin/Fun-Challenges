@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Javascript Calculator</title>
+	<style>
+		.container {
+			width: 500px;
+			margin-left: auto;
+			margin-right: auto;
+			border: 1px solid black;
+			border-radius: 1%;
+			background-color: white; /* this is the colour of your calculator's casing */
+		}
+		  
+		.display {
+			width: 98%;
+			height: 40px;
+			font-size: 30px;	
+			text-align: right;
+			margin-bottom: 15px;
+			padding-right: 5px;
+		}
+
+		table {
+			width: 100%;
+			padding: 5px;
+		}
+
+		table td {
+			width: 20%;	
+			margin: 3px;
+			text-align: center;
+		}
+
+		.button {
+			width: 100%;
+			height: 40px;
+			font-size: 20px;
+			color: #222;
+		}
+	</style>
+	<script type="text/javascript">
+		<!-- Hide Javascript
+		
+		/* 
+			Author: Erik Zorn - Wallentin 
+			Created: Thursday, Jan. 15 / 2015
+			I am a TA (Teaching Assistant) for the class CIS*1000 (Winter 2015 semester) and was requested to create a calculator
+			by my professor (Zoe Zhu) for the students to prepare for their 5th assignment. 
+
+			The code contains HTML and Javascript that you can review in the calculator.html file.
+
+			Features: Most basic commands of a calculator, error testing!
+			
+			Calculator is used the same way as you would expect a calculator to be used in normal life, 
+			please use that as your reference when using this calculator.
+		*/
+
+		
+		var checkReset = true;
+		var checkDecimal = false;
+		var checkBracket = false;
+		
+		/*-------
+		Purpose: Puts the game back to the original state ( when you launched it), resets all variables / buttons
+		Parameters: input (value of the button), option (determines if it is an operator, number, decimal)
+		Return: NONE
+	    -------*/
+		function equation (input, option) {
+			var inputValue = document.getElementById ('display').value;
+			var length = inputValue.length - 1;
+			
+			if (option == 0){
+				if (checkBracket == false && input == "("){
+					if (checkReset == true){
+						document.getElementById ('display').value = input;
+						checkReset = false;
+					}
+					else{
+						document.getElementById ('display').value += input;
+					}
+					checkBracket = true;
+				}
+				else if (checkBracket == true && input == ")"){
+					document.getElementById ('display').value += input;
+					checkBracket = false;
+				}
+			}
+			else if (option == 1){	
+				if (checkReset == true) {
+					document.getElementById ('display').value = input;
+					checkReset = false;
+					checkDecimal = false;
+				}
+				else{	
+					document.getElementById ('display').value += input;
+				}
+			}
+			else if (option == 2){
+				/* When you input an operator, put a space between the operator every time */
+				if (inputValue.substring(length) == " ") {
+					document.getElementById ('display').value = inputValue.substring (0, length - 2);
+				} 
+				else if (inputValue.substring(length) == ".") {
+					document.getElementById ('display').value = inputValue.substring (0, length);
+				}
+				document.getElementById ('display').value += ' ' + input + ' ';
+				checkReset = false;
+				checkDecimal = false;
+			}
+			else{
+				if (checkDecimal == false)
+				{
+					if (inputValue.substring(length) == " ") {
+						document.getElementById ('display').value += 0 + input;
+					}
+					else{
+						document.getElementById ('display').value += input;
+					}
+					checkReset = false;
+					checkDecimal = true;
+				}
+			}
+		}
+		
+		/*-------
+		Purpose: Clears the calculator display and put the calculator back into the original state, so it resets all variables and buttons
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function clearDisplay () {
+			document.getElementById ('display').value = 0;
+			/* Variables back to original state */
+			checkReset = true; 									 
+			checkDecimal = false;
+			checkBracket = false;
+		}
+		
+		/*-------
+		Purpose: Solves the operations and calculations in the display of the calculator, uses eval function
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function solve () {
+			if (checkBracket == true){
+				document.getElementById ('display').value += ")";
+			}
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = eval (expression); //Use eval function
+			checkReset = true; 									 //Start over again from start after using "=" when you press a button
+			checkBracket = false;
+			checkDecimal = false;
+		}
+
+		/*-------
+		Purpose: Removes the most recent input into the calculator, performs a normal backspace step in the display
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function backspace () {
+			var inputValue = document.getElementById ('display').value;
+			var length = inputValue.length - 1;
+			
+			if (inputValue.substring(length) == ".") {
+				document.getElementById ('display').value = inputValue.substring (0, length - 1);
+				checkDecimal = false;
+			}
+			else if (inputValue.substring(length) == " ") {
+				document.getElementById ('display').value = inputValue.substring (0, length - 2);
+			}
+			else if (inputValue.substring(length) == ")") {
+				document.getElementById ('display').value = inputValue.substring (0, length);
+				checkBracket = true;
+			} 
+			else{
+				document.getElementById ('display').value = inputValue.substring (0, length);
+			}
+			
+			/* If there is nothing on screen default to zero */
+			if (document.getElementById ('display').value == "") {
+				checkReset = true;
+				checkDecimal = false;
+				checkBracket = false;
+				document.getElementById ('display').value = 0;
+			}		
+		}
+		
+		/*-------
+		Purpose: Uses the sin function in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function sinFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = Math.sin (expression);
+		}
+		
+		/*-------
+		Purpose: Uses the cosine function in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function cosFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = Math.cos (expression);
+		}
+		
+		/*-------
+		Purpose: Uses the tan function in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function tanFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = Math.tan (expression);
+		}
+		
+		/*-------
+		Purpose: Uses the square root function in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function sqrtFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = Math.sqrt (expression);
+		}
+		
+		/*-------
+		Purpose: Uses the squared formula ( value * value ) in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function sqrdFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			document.getElementById ('display').value = expression * expression;
+		}
+		
+		/*-------
+		Purpose: Uses the PI function in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function piFunc () {
+			if (checkReset == true){
+				document.getElementById ('display').value = Math.PI;
+			}
+			else{
+				document.getElementById ('display').value += Math.PI;
+			}
+			checkReset = false;
+		}
+		
+		/*-------
+		Purpose: Calculates factorial in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function factFunc () {
+			solve ();
+			var expression = document.getElementById ('display').value;
+			
+			if (expression < 0) {
+				document.getElementById ('display').value = -1;
+			} 
+			else if (expression == 0) {
+				document.getElementById ('display').value = 1;
+			} 
+			else {
+				var result = expression;
+				
+				while (expression > 2) {
+					expression -= 1;
+					result *= expression;
+				}
+				document.getElementById ('display').value = result;
+			}
+		}
+		
+		/*-------
+		Purpose: Uses pow function, which is x^10 in the display of the calculator, solves everything in display before doing the operation
+		Parameters: NONE
+		Return: NONE
+	    -------*/
+		function powFunc(){
+			solve ();
+			var expression = document.getElementById ('display').value;
+			/* x is base (expression variable) and y is exponent ( 10 number you can see below) */
+			var result = Math.pow(expression, 10);
+			
+			document.getElementById ('display').value = result;
+		
+		}
+		
+		-->
+	</script>
+	<noscript>
+		<h3>This site requires JavaScript</h3>
+	</noscript>
+</head>
+<body>
+	<div class="container">
+		<table cellspacing="0">
+			<tr>
+				<td colspan="4"><input id="display" class="display" type="input" disabled="disabled" value="0"/></td>
+			</tr>
+			<tr>
+				<td><input id="sin" class="button" type="button" value="sin" onclick="sinFunc ()"/></td>
+				<td><input id="cos" class="button" type="button" value="cos" onclick="cosFunc ()"/></td>
+				<td><input id="tan" class="button" type="button" value="tan" onclick="tanFunc ()"/></td>
+				<td><input id="sqrt" class="button" type="button" value="sqrt" onclick="sqrtFunc ()"/></td>
+			</tr>
+			<tr>
+				<td><input id="squared" class="button" type="button" value="n2" onclick="sqrdFunc ()"/></td>
+				<td><input id="pi" class="button" type="button" value="pi" onclick="piFunc ()"/></td>
+				<td><input id="factorial" class="button" type="button" value="n!" onclick="factFunc ()"/></td>
+				<td><input id="pow10" class="button" type="button" value="n10" onclick="powFunc ()"/></td>
+				
+			</tr>
+			<tr>
+				<td><input id="bracketopen" class="button" type="button" value="(" onclick="equation (this.value, 0)"/></td>
+				<td><input id="bracketclose" class="button" type="button" value=")" onclick="equation (this.value, 0)"/></td>
+				
+			</tr>
+			<tr>
+				<td colspan="1"><input id="backspace" class="button" type="button" value="←" onclick="backspace ()"/></td>
+				<td colspan="2"><input id="clearDisplay" class="button" type="button" value="C" onclick="clearDisplay ()"/></td>
+				<td><input id="divide" class="button" type="button" value="/" onclick="equation (this.value, 2)"/></td>
+			</tr>
+			<tr>
+				<td><input id="one" class="button" type="button" value="1" onclick="equation (this.value, 1)"/></td>
+				<td><input id="two" class="button" type="button" value="2" onclick="equation (this.value, 1)"/></td>
+				<td><input id="three" class="button" type="button" value="3" onclick="equation (this.value, 1)"/></td>
+				<td><input id="multiply" class="button" type="button" value="*" onclick="equation (this.value, 2)"/></td>
+			</tr>
+			<tr>
+				<td><input id="four" class="button" type="button" value="4" onclick="equation (this.value, 1)"/></td>
+				<td><input id="five" class="button" type="button" value="5" onclick="equation (this.value, 1)"/></td>
+				<td><input id="six" class="button" type="button" value="6" onclick="equation (this.value, 1)"/></td>
+				<td><input id="minus" class="button" type="button" value="-" onclick="equation (this.value, 2)"/></td>
+			</tr>
+			<tr>
+				<td><input id="seven" class="button" type="button" value="7" onclick="equation (this.value, 1)"/></td>
+				<td><input id="eight" class="button" type="button" value="8" onclick="equation (this.value, 1)"/></td>
+				<td><input id="nine" class="button" type="button" value="9" onclick="equation (this.value, 1)"/></td>
+				<td><input id="plus" class="button" type="button" value="+" onclick="equation (this.value, 2)"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input id="zero" class="button" type="button" value="0" onclick="equation (this.value, 1)"/></td>
+				<td><input id="decimal" class="button" type="button" value="." onclick="equation (this.value, 3)"/></td>
+				<td><input id="equals" class="button" type="button" value="=" onclick="solve ()"/></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

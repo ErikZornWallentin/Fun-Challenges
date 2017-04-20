@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Length Converter</title>
+    <style>
+        .container {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1%;
+            background-color: white; 
+        }
+        
+        .display {
+            width: 98%;
+            height: 40px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+        }
+        
+        table td {
+            width: 20%;
+            margin: 3px;
+            text-align: center;
+        }
+        
+        .button {
+            width: 100%;
+            height: 40px;
+            font-size: 70px;
+            color: #222;
+        }
+		
+	.buttonSetup {
+            width: 100px;
+            height: 70px;
+            font-size: 20px;
+            color: #222;
+        }
+		
+    </style>
+    <script type="text/javascript">
+	/* 	
+		Author: Erik Zorn - Wallentin 
+		Created: Mar. 7 / 2016
+		
+		This program was created to polish and improve my JavaScript programming skills.
+		
+		The script is on Length Conversion, if you don't know what that is, see below link:
+		http://www.metric-conversions.org/length/centimeters-to-feet.htm
+		
+		The program will calculate Centimetre to Feet, and Feet to Centimetre.
+		The program also handled error checking, it will give an error on blank input, or characters.
+		Also it will solve any calculations before doing the conversion in the input box.
+		
+		It starts off by waiting for user input. 
+		In both textbox's on the screen you input a number and hit "Calculate" button to calculate Length Conversion!
+		You can reset the converter at any time to get back to the original state that the program started in.
+		
+	*/
+		
+	/*-------
+		Purpose: On launch of the script this function is called, calls the reset function to reset everything
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function init (){
+		reset();
+	}
+		
+	/*-------
+		Purpose: Resets the program to the original state
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function reset () {
+		document.getElementById('showResult1').innerHTML = "";
+		document.getElementById('showResult2').innerHTML = "";
+		document.getElementById('1').value = "1";
+		document.getElementById('2').value = "1";
+	}
+
+	/*-------
+		Purpose: Extension to JavaScript evaluate function, but this allows me to set values in my input boxes before calculations
+		Parameters: value ( value to be evaluated ), slot (input box will be set to the evaluated number )
+		Return: NONE
+	-------*/
+	function evaluate(value, slot){
+		var result = 0;
+		result = eval(value);
+		document.getElementById(slot).value = result;
+
+	}
+
+	/*-------
+		Purpose: Calculates conversion from Centimetre to Feet, and Feet to Centimetre.
+		Parameters: NONE
+		Return: NONE
+	-------*/
+	function calculate(){
+		var centimetreInput = document.getElementById('1').value;
+		var feetInput = document.getElementById('2').value;
+		var centimetreConverted = 0;
+		var feetConverted = 0;
+		var letters = /^[A-Za-z]+$/; 
+
+		/* Error checking for certain input boundaries, don't allow characters! Needs to be done before EVAL function is used */
+		if (centimetreInput.match(letters)){
+			document.getElementById('showResult1').innerHTML = "Please use numbers, not characters";
+		}else if (centimetreInput == ""){
+			document.getElementById('1').value = 1;
+			document.getElementById('showResult1').innerHTML = "Input is empty! Put in a number to calculate!";
+		}else{
+			/* Error checking to see if any calculations need to be solved before we do conversion */
+			evaluate(centimetreInput, 1);
+			centimetreInput = document.getElementById('1').value;
+			
+			/* Calculate the conversions */
+			feetConverted = centimetreInput * 0.032808;
+
+			/*  Show conversions to the user */
+			document.getElementById('showResult1').innerHTML = centimetreInput + "cm = " + feetConverted +"ft";
+			
+			
+		}
+
+		/* Error checking for certain input boundaries, don't allow characters! Needs to be done before EVAL function is used */
+		if (feetInput.match(letters)){
+			document.getElementById('showResult2').innerHTML = "Please use numbers, not characters";
+		}else if (feetInput == ""){
+			document.getElementById('2').value = 1;
+			document.getElementById('showResult2').innerHTML = "Input is empty! Put in a number to calculate!";
+		}else{
+			
+			/* Error checking to see if any calculations need to be solved before we do conversion */
+			evaluate(feetInput, 2);
+			feetInput = document.getElementById('2').value;
+
+			/* Calculate the conversions */
+			centimetreConverted = feetInput / 0.032808;
+
+			/*  Show conversions to the user */
+			document.getElementById('showResult2').innerHTML = feetInput + "ft = " + centimetreConverted +"cm";
+
+		}
+	}
+		
+    </script>
+	</head>
+	<!-- BUTTON AND TEXT SECTION -->
+	<body onload="init ()">
+		<center>
+			<font size="7" face="verdana" color="black"><b>Length Converter</b></font> 
+		</center>
+		
+		<div class="container">
+			<table cellspacing="0">
+				<tr>
+					<td><b>Centimetre to Feet (cm to ft): <input type="text" id="1"></b><br></td>	
+				</tr>
+				<tr>
+					<td><b>Feet to Centimetre (ft to cm): <input type="text" id="2"></b><br></td>	
+				</tr>
+			</table>
+		</div>
+
+		<center>
+			<br>
+			<td><input id="resetBtn" class="buttonSetup" type="button" value="Reset" onclick="reset ()"/></td><br>
+			<td><input id="calculateBtn" class="buttonSetup" type="button" value="Calculate" onclick="calculate ()"/></td><br><br>
+			<font size="5" face="verdana" color="red"><b><span id="showResult1"></span> </b></font><br>
+			<font size="5" face="verdana" color="red"><b><span id="showResult2"></span> </b></font><br>
+		</center>
+	</body>
+</html>
